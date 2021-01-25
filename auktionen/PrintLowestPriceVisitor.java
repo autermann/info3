@@ -2,33 +2,24 @@ package auktionen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PrintLowestPriceVisitor implements Visitor {
-    private List<Article> list;
-
-    public PrintLowestPriceVisitor() {
-        list = new ArrayList<>();
-    }
+    private Article lowest;
 
     @Override
-    public void visit(Article auction) {
-
-    }
-
-    @Override
-    public void visit(Category category) {
-        for(AuctionElement e : category.getSubElements()) {
-            if(e instanceof Category) {
-                e.accept(this);
-            } else {
-                list.add((Article) e);
-            }
+    public void visit(Article article) {
+        if (this.lowest == null || this.lowest.compareTo(article) > 0) {
+            this.lowest = article;
         }
     }
 
     @Override
-    public void apply() {
-        list.sort(Article::compareTo);
-        System.out.println(list.get(0));
+    public void visit(Category category) {
+        category.getSubElements().forEach(e -> e.accept(this));
+    }
+
+    public Optional<Article> getLowest() {
+        return Optional.ofNullable(this.lowest);
     }
 }

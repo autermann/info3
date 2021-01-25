@@ -26,14 +26,16 @@ public class AuctionPlattform {
 
         System.out.println("Get Everything in this hierarchy:");
 
-        Visitor v1 = new PrintHierarchyVisitor();
-        c1.accept(v1);
+        c1.accept(new PrintHierarchyVisitor());
 
         System.out.println();
         System.out.println("Get lowest Price:");
 
         Visitor v2 = new PrintLowestPriceVisitor();
         c1.accept(v2);
-        v2.apply();
+        System.out.println(v2.getLowest()
+                             .map(Article::toString)
+                             .orElse("no article found"));
+        
     }
 }

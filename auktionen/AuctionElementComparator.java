@@ -2,7 +2,15 @@ package auktionen;
 
 import java.util.Comparator;
 
-class AuctionElementComparator implements Comparator<AuctionElement> {
+public class AuctionElementComparator implements Comparator<AuctionElement> {
+    private static final AuctionElementComparator INSTANCE = new AuctionElementComparator();
+
+    public static final AuctionElementComparator getInstance() {
+        return INSTANCE;
+    }
+
+    protected AuctionElementComparator() {}
+
     @Override
     public int compare(AuctionElement a1, AuctionElement a2) {
         if(a1 instanceof Article) {
